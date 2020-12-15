@@ -1,4 +1,4 @@
-package task.util;
+package com.dwj.demo.task.util;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;

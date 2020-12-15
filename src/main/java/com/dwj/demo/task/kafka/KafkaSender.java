@@ -1,4 +1,4 @@
-package task.kafka;
+package com.dwj.demo.task.kafka;
 
 import com.bizseer.xts.task.dto.Alert;
 import com.bizseer.xts.task.util.KafkaUtil;

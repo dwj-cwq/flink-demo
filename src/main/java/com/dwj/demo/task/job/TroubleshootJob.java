@@ -1,4 +1,4 @@
-package task.job;
+package com.dwj.demo.task.job;
 
 import com.bizseer.xts.task.dto.Alert;
 import com.bizseer.xts.task.dto.TroubleshootResult;

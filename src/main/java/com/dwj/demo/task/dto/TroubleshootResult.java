@@ -1,4 +1,4 @@
-package task.dto;
+package com.dwj.demo.task.dto;
 
 import lombok.Data;
 

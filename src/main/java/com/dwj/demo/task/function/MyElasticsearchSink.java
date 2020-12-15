@@ -1,4 +1,4 @@
-package task.function;
+package com.dwj.demo.task.function;
 
 import org.apache.flink.api.common.functions.RuntimeContext;
 import org.apache.flink.streaming.connectors.elasticsearch.ElasticsearchSinkFunction;

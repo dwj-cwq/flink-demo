@@ -1,4 +1,4 @@
-package task;
+package com.dwj.demo.task;
 
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.client.deployment.StandaloneClusterId;
@@ -32,7 +32,7 @@ public class JobSubmit {
         RestClusterClient<StandaloneClusterId> client = new RestClusterClient<>(config, StandaloneClusterId.getInstance());
         PackagedProgram program = PackagedProgram.newBuilder()
                 .setJarFile(new File(jar))
-                .setEntryPointClassName("com.bizseer.xts.task.job.TroubleshootJob")
+                .setEntryPointClassName("com.bizseer.xts.TroubleshootJob")
                 .build();
         JobGraph jobGraph = PackagedProgramUtils.createJobGraph(program, config, 2, false);
         JobID jobId = client.submitJob(jobGraph).get();

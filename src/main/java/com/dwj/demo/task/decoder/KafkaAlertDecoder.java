@@ -1,4 +1,4 @@
-package task.decoder;
+package com.dwj.demo.task.decoder;
 
 import com.bizseer.xts.task.dto.Alert;
 import com.bizseer.xts.task.util.SerializableUtil;
