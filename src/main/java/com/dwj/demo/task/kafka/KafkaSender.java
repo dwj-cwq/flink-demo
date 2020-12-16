@@ -1,8 +1,9 @@
 package com.dwj.demo.task.kafka;
 
-import com.bizseer.xts.task.dto.Alert;
-import com.bizseer.xts.task.util.KafkaUtil;
-import com.bizseer.xts.task.util.SerializableUtil;
+
+import com.dwj.demo.task.dto.Alert;
+import com.dwj.demo.task.util.KafkaUtil;
+import com.dwj.demo.task.util.SerializableUtil;
 
 /**
  * @author dwj

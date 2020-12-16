@@ -1,13 +1,12 @@
 package com.dwj.demo.task.job;
 
-import com.bizseer.xts.task.dto.Alert;
-import com.bizseer.xts.task.dto.TroubleshootResult;
-import com.bizseer.xts.task.function.MyElasticsearchBuilder;
-import com.bizseer.xts.task.function.MyElasticsearchSink;
-import com.bizseer.xts.task.util.SerializableUtil;
+import com.dwj.demo.task.config.KafkaConfig;
+import com.dwj.demo.task.decoder.KafkaAlertCoder;
+import com.dwj.demo.task.dto.Alert;
+import com.dwj.demo.task.dto.TroubleshootResult;
+import com.dwj.demo.task.function.MyElasticsearchBuilder;
+import com.dwj.demo.task.function.MyElasticsearchSink;
 import org.apache.commons.compress.utils.Lists;
-import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -21,7 +20,6 @@ import org.apache.http.HttpHost;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * @author dwj
@@ -34,18 +32,12 @@ public class TroubleshootJob {
     public static void doExecute() throws Exception {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        DataStreamSource<String> streamSource = environment.addSource(new FlinkKafkaConsumer<String>(
+        DataStreamSource<Alert> streamSource = environment.addSource(new FlinkKafkaConsumer<Alert>(
                 TOPIC,
-                new SimpleStringSchema(),
-                getKafkaConfig()));
+                new KafkaAlertCoder(),
+                KafkaConfig.getKafkaConfig()));
 
         SingleOutputStreamOperator<TroubleshootResult> resultStream = streamSource
-                .map(new MapFunction<String, Alert>() {
-                    @Override
-                    public Alert map(String s) throws Exception {
-                        return SerializableUtil.json2obj(s, Alert.class);
-                    }
-                })
                 .keyBy(alert -> getInstanceByTags(alert.getTags()))
                 .window(TumblingEventTimeWindows.of(Time.minutes(1)))
                 .process(new ProcessWindowFunction<Alert, TroubleshootResult, String, TimeWindow>() {
@@ -85,17 +77,6 @@ public class TroubleshootJob {
 
     private static TroubleshootResult doCheckAction() {
         return new TroubleshootResult();
-    }
-
-    private static Properties getKafkaConfig() {
-        Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", "localhost:9092");
-        properties.setProperty("group.id", "test-group");
-        properties.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        properties.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        //偏移量自动重置
-        properties.setProperty("auto.offset.reset", "latest");
-        return properties;
     }
 
     public static void main(String[] args) throws Exception {
