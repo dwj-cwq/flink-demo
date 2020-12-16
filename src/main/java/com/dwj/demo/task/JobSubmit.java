@@ -1,5 +1,6 @@
 package com.dwj.demo.task;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.JobID;
 import org.apache.flink.client.deployment.StandaloneClusterId;
 import org.apache.flink.client.program.PackagedProgram;
@@ -17,6 +18,7 @@ import java.io.File;
  * @author dwj
  * @date 2020/12/2 19:10
  */
+@Slf4j
 public class JobSubmit {
 
     public static void main(String[] args) throws Exception {
@@ -24,7 +26,7 @@ public class JobSubmit {
     }
 
     public static void submitJob() throws Exception {
-        System.out.println("Begin submit job");
+        log.info("Submit job");
         String jar = "/Users/dwj/Sourcetree/bizseer/troubleshoot/xts-task/target/xts-task-0.0.1-SNAPSHOT.jar";
         Configuration config = new Configuration();
         config.setString(JobManagerOptions.ADDRESS, "10.0.60.128");
@@ -37,7 +39,7 @@ public class JobSubmit {
         JobGraph jobGraph = PackagedProgramUtils.createJobGraph(program, config, 2, false);
         JobID jobId = client.submitJob(jobGraph).get();
         JobResult jobResult = client.requestJobResult(jobId).get();
-        System.out.println(String.format("Jod submit success, Job id is %s", jobId));
-        System.out.println("Jod submit success, Job: " + jobResult.getAccumulatorResults());
+        log.info(String.format("Jod submit success, Job id is %s", jobId));
+        log.info("Jod submit success, Job: " + jobResult.getAccumulatorResults());
     }
 }

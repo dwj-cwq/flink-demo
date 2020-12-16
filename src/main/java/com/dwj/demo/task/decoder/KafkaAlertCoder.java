@@ -1,7 +1,7 @@
 package com.dwj.demo.task.decoder;
 
-import com.bizseer.xts.task.dto.Alert;
-import com.bizseer.xts.task.util.SerializableUtil;
+import com.dwj.demo.task.dto.Alert;
+import com.dwj.demo.task.util.SerializableUtil;
 import org.apache.flink.api.common.serialization.DeserializationSchema;
 import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
@@ -10,7 +10,7 @@ import org.apache.flink.api.common.typeinfo.TypeInformation;
  * @author dwj
  * @date 2020/11/21 20:01
  */
-public class KafkaAlertDecoder implements DeserializationSchema<Alert>, SerializationSchema<Alert> {
+public class KafkaAlertCoder implements DeserializationSchema<Alert>, SerializationSchema<Alert> {
 
     @Override
     public Alert deserialize(byte[] bytes) {
