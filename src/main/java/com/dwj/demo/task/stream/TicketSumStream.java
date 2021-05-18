@@ -35,7 +35,7 @@ public class TicketSumStream {
             .forBoundedOutOfOrderness(Duration.ofSeconds(20));
 
         DataStream<TicketDTO> tickets = environment.addSource(new FlinkKafkaConsumer<>("ticket",
-            new KafkaTicketDecoder(), KafkaUtil.kafkaConfigs()).assignTimestampsAndWatermarks(strategy));
+            new KafkaTicketDecoder(), KafkaUtil.consumerConfig()).assignTimestampsAndWatermarks(strategy));
 
         OutputTag<TicketDTO> sideOutput = new OutputTag<TicketDTO>("side") {
         };
@@ -57,7 +57,7 @@ public class TicketSumStream {
             .withTimestampAssigner((event, timestamp) -> event.getTimestamp());
 
         DataStream<TicketDTO> tickets = environment.addSource(new FlinkKafkaConsumer<>("ticket",
-            new KafkaTicketDecoder(), KafkaUtil.kafkaConfigs()).assignTimestampsAndWatermarks(strategy));
+            new KafkaTicketDecoder(), KafkaUtil.consumerConfig()).assignTimestampsAndWatermarks(strategy));
 
         OutputTag<TicketDTO> sideOutput = new OutputTag<TicketDTO>("side") {
         };

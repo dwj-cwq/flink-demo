@@ -53,7 +53,7 @@ public class KafkaUtil {
         this.kafkaProducer.close();
     }
 
-    public static Properties kafkaConfigs() {
+    public static Properties consumerConfig() {
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "10.0.90.86:9092,10.0.90.86:9093,10.0.90.86:9094");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, group);
